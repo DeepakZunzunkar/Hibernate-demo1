@@ -1,5 +1,5 @@
 >#### About
-This is basic Hibernate fully `XML based configuration` Application ,implemented using below jar
+This is basic Hibernate fully `XML based configuration` console Application ,implemented using below jar
 - hibernate-core -5.0.11
 - hibernate-JPA -2.1 
 - hibernate-commons-annotations-5.0.1
@@ -12,6 +12,8 @@ This is basic Hibernate fully `XML based configuration` Application ,implemented
   - this configuration file contain connection properties, hibernate properties, mapping file names.
   - then created mapping file refference in the configuration file.
   - in this application we have perform basic Student CURD operation so created mapping file as Student.hbm.xml.
+  - then we have created HibernateUtility where Configutaion objcet is created which reffere to above hibernate.cfg.xml file  
+  - and then `SessionFactory` Implemented Object  we get through cfg object refference .
   
   ##### Hibernate.cfg.xml
   ```
