@@ -39,7 +39,7 @@ This is basic Hibernate fully `XML based configuration` console Application ,imp
 
 ```
 
-  ##### Student.hbm.xml
+ ##### Student.hbm.xml
   ```
   <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
@@ -61,3 +61,11 @@ This is basic Hibernate fully `XML based configuration` console Application ,imp
 </hibernate-mapping>
 
   ```
+##### HibernateUtility	
+```
+Configuration cfg = new Configuration();
+cfg.configure();
+SessionFactory sf = cfg.buildSessionFactory();
+Session session = sf.openSession();
+
+```
