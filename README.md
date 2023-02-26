@@ -32,7 +32,7 @@ This is basic Hibernate fully `XML based configuration` console Application ,imp
     <session-factory>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.password">root</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/databaseName?createDatabaseIfNotExist=true</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/database scema name?createDatabaseIfNotExist=true</property>
         <property name="hibernate.connection.username">root</property>
         
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
