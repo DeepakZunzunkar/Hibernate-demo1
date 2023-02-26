@@ -14,7 +14,14 @@ This is basic Hibernate fully `XML based configuration` console Application ,imp
   - in this application we have perform basic Student CURD operation so created mapping file as Student.hbm.xml.
   - then we have created HibernateUtility where Configutaion objcet is created which reffere to above hibernate.cfg.xml file  
   - and then `SessionFactory` Implemented Object  we get through cfg object refference .
+>  SessionFactory provides session instances and all instances are configured to connect to the same database .						
+>  The JPA, EntityManagerFactory interface is similar to the SessionFactory in native Hibernate.
+  - from sessionFactory object refference we get Session Object 
+ >The Session API is used to access a database in a particular unit of work. 
+ >It is used to create and remove persistent entity instances, to find entities by their primary key identity,
+ > and to query over all entities. JPA EntityManager interface is similar to the Session in Hibernate.
   
+ 
   ##### Hibernate.cfg.xml
   ```
   <?xml version="1.0" encoding="UTF-8"?>
