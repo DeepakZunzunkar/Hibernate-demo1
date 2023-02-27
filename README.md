@@ -76,3 +76,12 @@ SessionFactory sf = cfg.buildSessionFactory();
 Session session = sf.openSession();
 
 ```
+[Hibernate Session Doc](https://docs.jboss.org/hibernate/orm/3.5/javadocs/org/hibernate/Session.html)
+
+###### Methods Of Session API used in this App
+- session.save(student)
+- session.update(student)
+- session.delete(student)
+- session.get(Student.class,id)
+- session.createCriteria(Student.class)
+ 		
