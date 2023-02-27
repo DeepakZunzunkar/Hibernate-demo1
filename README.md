@@ -33,8 +33,6 @@ This is basic Hibernate fully `XML based configuration` console Application ,imp
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.password">root</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/database scema name?createDatabaseIfNotExist=true</property>
-	<!--  if we set createDatabaseIfNotExist=true then whenever we run/restart the application it drop existing database schema and create new even if existing schema contain tables it will drop it.
-	by defaul createDatabaseIfNotExist is false -->
         <property name="hibernate.connection.username">root</property>
         
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
