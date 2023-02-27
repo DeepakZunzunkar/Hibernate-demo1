@@ -104,7 +104,7 @@ public class StudebtDaoImpl
 		int id=sc.nextInt();
 		
 		session=sf.openSession();
-		student=session.get(Student.class,id );
+		student=session.get(Student.class,id);
 		
 		session.close();
 		//sf.close();	
@@ -115,7 +115,6 @@ public class StudebtDaoImpl
 	public static List<Student> getAllRecord()
 	{
 		session=sf.openSession();
-		
 		Criteria criteria=session.createCriteria(Student.class);
 		List<Student> slist=criteria.list();
 		

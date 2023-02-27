@@ -16,7 +16,7 @@ public class Test
 		int option=0;
 		int rs=0;
 		
-		System.out.println("*************wecome***********************\n");
+		System.out.println("*************welcome***********************\n");
 		while(true)
 		{
 			System.out.println("1]Add");
