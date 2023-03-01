@@ -85,22 +85,21 @@ public class Test
 						System.out.println("\n\tafter persist "+empTrn);
 						break;
 				case 2:
-						System.out.println("****** UPDATE BY ID \n*****");
+						System.out.println("****** UPDATE BY ID *****\\n");
 						System.out.println("Enter Employee EID : ");
 						long eid =sc.nextLong();
 						loader();
 						empTrn = eservice.findById(eid);
 						if(empTrn !=null) {
-							loader();
-//							employeeList = new ArrayList<Employee>();
-//							employeeList.add(empTrn);
-//							displayRecord(employeeList);
+							employeeList = new ArrayList<Employee>();
+							employeeList.add(empTrn);
+							displayRecord(employeeList);
 							empTrn= updateEmployeeForm(sc,empTrn);
 							System.out.println("\n\tbefore persist "+empTrn+"\n");
 							eservice.updateEmployee(empTrn);
 							System.out.println("\n\tafter persist "+empTrn);							
 						}else {
-							System.err.println("employee not by EID ");
+							System.err.println("employee not found by EID ");
 						}
 						break;
 				case 3:
@@ -110,7 +109,13 @@ public class Test
 
 						break;
 				case 5:
-
+							employeeList=eservice.getAllEmployees();
+							if(employeeList!=null && !employeeList.isEmpty()) {
+								System.out.println("\n\nAll Employee Records ::");
+								displayRecord(employeeList);
+							}else {
+								System.err.println("no data found");
+							}
 						break;
 				case 6:
 
@@ -131,6 +136,10 @@ public class Test
 		
 		
 		}while(status.equalsIgnoreCase("yes") || status.equalsIgnoreCase("y"));
+    	if(!(status.equalsIgnoreCase("yes") || status.equalsIgnoreCase("y"))){
+    		System.err.println("invalid choise "+status);
+    		System.exit(0);
+    	}
     }
 
 	private static Employee updateEmployeeForm(Scanner sc, Employee empTrn) {
@@ -237,11 +246,27 @@ public class Test
 			System.err.println("Exception occured in intiateLandingPage "+e.getMessage());
 		}
 		System.out.println("\n\nRecently Added Record ::");
-		displayRecord(employeeList);
+		displayRecentAddedRecord(employeeList);
 	
 	}
 		
 	
+
+	private static void displayRecentAddedRecord(List<Employee> employeeList) {
+		
+		System.out.println("\n--------------------------------------------------------------------");
+		System.out.println("ID	|	NAME	|	STATUS 	|	AGE	| CREATED ON	 ");
+		System.out.println("---------------------------------------------------------------------");   
+		
+		if(employeeList!=null && !employeeList.isEmpty()) {
+			
+			for(Employee emp:employeeList) {
+				System.out.println(emp.getEid()+"\t|"+emp.getFirstName()+" "+emp.getLastName()+"\t|\t"+emp.getStatus()+"\t|\t"+DateUtils.getAge(DateUtils.convertJUtilDateTimeToString(emp.getBirthDate()))+"\t|"+emp.getCreatedOn());
+			}
+			employeeList.clear();
+		}
+		System.out.println("-----------------------------------------------------------------------\n");
+	}
 
 	private static void displayRecord(List<Employee> employeeList) {
 		
@@ -254,6 +279,7 @@ public class Test
 			for(Employee emp:employeeList) {
 				System.out.println(emp.getEid()+"\t|"+emp.getFirstName()+" "+emp.getLastName()+"\t|\t"+emp.getStatus()+"\t|\t"+DateUtils.getAge(DateUtils.convertJUtilDateTimeToString(emp.getBirthDate()))+"\t|"+emp.getCreatedOn());
 			}
+			employeeList.clear();
 		}
 		System.out.println("-----------------------------------------------------------------------\n");
 		
