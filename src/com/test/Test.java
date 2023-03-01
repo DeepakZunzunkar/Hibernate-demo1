@@ -67,16 +67,15 @@ public class Test
 			System.out.println("3]delete");
 			System.out.println("4]Search");
 			System.out.println("5]View All Record");
-    		System.out.println("6]Terminate Employee ");
-    		System.out.println("7]Deactivate / Exist Employee from the system ");
-    		System.out.println("8]Exit from App ");
+    		System.out.println("6]chaange Employee status ACTIVE / DEACTIVATE / TERMINATE  / ON LEAVE ");
+    		System.out.println("7]Exit from App ");
 			
 			int num =sc.nextInt();
 		
 			switch (num)
 			{
 				case 1:	
-							empTrn= registerEmployeeForm(sc,"ADD",null);
+							empTrn= setEmployeeForm(sc,"ADD",null);
 							loader();
 							System.out.println("\n\tbefore persist "+empTrn+"\n");
 							empTrn = eservice.saveEmployee(empTrn);
@@ -131,7 +130,7 @@ public class Test
 							}else {
 								System.err.println("employee not found by EID ");
 							}
-						break;
+							break;
 				case 5:
 							employeeList=eservice.getAllEmployees();
 							if(employeeList!=null && !employeeList.isEmpty()) {
@@ -140,19 +139,57 @@ public class Test
 							}else {
 								System.err.println("no data found");
 							}
-						break;
-				case 6:
+							break;
+				case 6:		
+							System.out.println("Enter Employee EID : ");
+							eid =sc.nextLong();
+							loader();
+							empTrn = eservice.findById(eid);
+							if(empTrn !=null) {
+								employeeList = new ArrayList<Employee>();
+								employeeList.add(empTrn);
+								displayRecord(employeeList);
+								System.out.println("\nselect your choise \n");
+								
+								System.out.println("1] ON LEAVE  ");
+								System.out.println("2] TERMINATE ");
+								System.out.println("3] DEACTIVATE ");
+								System.out.println("4] ACTIVATE \n");
+								int choice =sc.nextInt();
+								switch (choice)
+								{
+									case 1:	
+											empTrn.setStatus(EmployeeStatus.ONLEAVE.getEmployeeStatusCode());
+											
+											break;
+									case 2: 
+											empTrn.setStatus(EmployeeStatus.TERMINATED.getEmployeeStatusCode());
+											break;
+									case 3:	
+											empTrn.setStatus(EmployeeStatus.DECEASED.getEmployeeStatusCode());
+											break;
+									case 4: 
+											empTrn.setStatus(EmployeeStatus.ACTIVE.getEmployeeStatusCode());
+											break;
+									default:
+											System.err.println("Invalid Choice,try again\n");
+											break;
+								}
+								empTrn= setEmployeeForm(sc,"STATUS",empTrn);
+								System.out.println("\n\tbefore persist "+empTrn+"\n");
+								eservice.updateEmployee(empTrn);
+								System.out.println("\n\tafter persist "+empTrn);	
+							}else {
+								System.err.println("employee not found by EID ");
+							}
+							break;
 
-						break;
 				case 7:
-
-						break;
-				case 8:
-						System.exit(0);
-						break;
+							System.exit(0);
+							break;
 				default:
-						System.err.println("Invalid Choice,try again");
-						break;
+							System.err.println("Invalid Choice,try again");
+							break;
 			}
     		
 			System.out.println("\n\n\tDo u want to continue other operation (yes[y] / no[n] ) ? : ");
@@ -180,16 +217,16 @@ public class Test
 		switch (choice)
 		{
 			case 1:	
-					empTrn= registerEmployeeForm(sc,"NAMES",empTrn);
+					empTrn= setEmployeeForm(sc,"NAMES",empTrn);
 					break;
 			case 2: 
-					empTrn= registerEmployeeForm(sc,"GENDER",empTrn);
+					empTrn= setEmployeeForm(sc,"GENDER",empTrn);
 					break;
 			case 3:	
-					empTrn= registerEmployeeForm(sc,"DOB",empTrn);
+					empTrn= setEmployeeForm(sc,"DOB",empTrn);
 					break;
 			case 4: 
-					empTrn= registerEmployeeForm(sc,"ALL",empTrn);
+					empTrn= setEmployeeForm(sc,"ALL",empTrn);
 					break;
 			default:
 					System.err.println("Invalid Choice,try again\n");
@@ -199,7 +236,7 @@ public class Test
 		return empTrn;
 	}
 
-	private static Employee registerEmployeeForm(Scanner sc,String label,Employee trn) {
+	private static Employee setEmployeeForm(Scanner sc,String label,Employee trn) {
 		
 		
 		if(trn!=null) {
@@ -243,8 +280,8 @@ public class Test
 			trn.setBirthDate(DateUtils.convertStringToJUtilDateTime(dateStr));
 			
 		}
-		if(label.equalsIgnoreCase("ADD")) {
-			trn.setStatus(EmployeeStatus.ACTIVE.getEmployeeStatusCode());
+		if(label.equalsIgnoreCase("ADD") || label.equalsIgnoreCase("STATUS")) {
+			trn.setStatus(label.equalsIgnoreCase("STATUS")? trn.getStatus():EmployeeStatus.ACTIVE.getEmployeeStatusCode());
 		}
 		return trn;
 	}
