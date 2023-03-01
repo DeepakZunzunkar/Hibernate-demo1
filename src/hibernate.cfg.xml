@@ -26,5 +26,6 @@
     	<property name="format_sql">true</property>
     	
     	<mapping resource="com/model/Student.hbm.xml"/>
+    	<mapping resource="com/model/Employee.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

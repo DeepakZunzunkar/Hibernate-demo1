@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.model.Employee" table="adpemployee">
+		<id name="eid" type="java.lang.Long">
+            <column name="EID"/>
+            <generator class="increment" />
+        </id>
+        <property name="firstName" type="java.lang.String">
+            <column name="FIRSTNAME" />
+        </property>
+        <property name="lastName" type="java.lang.String">
+            <column name="LASTNAME" />
+        </property>
+        <property name="gender" type="java.lang.String">
+            <column name="gender" />
+        </property>
+         <property name="birthDate" type="java.util.Date">
+            <column name="BIRTHDATE" />
+        </property>
+        <property name="status" type="java.lang.String">
+            <column name="status" />
+        </property>
+        
+         <property name="active" type="java.lang.String">
+            <column name="ACTIVE" />
+        </property>
+        <property name="createdBy" type="java.lang.String">
+            <column name="CREATEDBY" />
+        </property>
+         <property name="createdOn" type="java.util.Date">
+            <column name="CREATEDON" />
+        </property>
+         <property name="updatedOn" type="java.util.Date">
+            <column name="UPDATEDON" />
+        </property>
+         <property name="updatedBy" type="java.lang.String">
+            <column name="UPDATEDBY" />
+        </property>
+        
+	</class>
+</hibernate-mapping>
