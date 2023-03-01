@@ -56,6 +56,7 @@ public class Test
     	EmployeeService eservice = new EmployeeServiceImpl();
     	Employee empTrn = null;
     	List<Employee> employeeList =null;
+    	long eid =0;
     	do
 		{
     		intiateLandingPage(eservice);
@@ -75,38 +76,61 @@ public class Test
 			switch (num)
 			{
 				case 1:	
-						empTrn= registerEmployeeForm(sc,"ADD",null);
-						loader();
-						System.out.println("\n\tbefore persist "+empTrn+"\n");
-						empTrn = eservice.saveEmployee(empTrn);
-						if(empTrn.getEid()==null) {
-							System.err.println("not added ,employee already exist");
-						}
-						System.out.println("\n\tafter persist "+empTrn);
-						break;
-				case 2:
-						System.out.println("****** UPDATE BY ID *****\\n");
-						System.out.println("Enter Employee EID : ");
-						long eid =sc.nextLong();
-						loader();
-						empTrn = eservice.findById(eid);
-						if(empTrn !=null) {
-							employeeList = new ArrayList<Employee>();
-							employeeList.add(empTrn);
-							displayRecord(employeeList);
-							empTrn= updateEmployeeForm(sc,empTrn);
+							empTrn= registerEmployeeForm(sc,"ADD",null);
+							loader();
 							System.out.println("\n\tbefore persist "+empTrn+"\n");
-							eservice.updateEmployee(empTrn);
-							System.out.println("\n\tafter persist "+empTrn);							
-						}else {
-							System.err.println("employee not found by EID ");
-						}
-						break;
+							empTrn = eservice.saveEmployee(empTrn);
+							if(empTrn.getEid()==null) {
+								System.err.println("not added ,employee already exist");
+							}
+							System.out.println("\n\tafter persist "+empTrn);
+							break;
+				case 2:
+							System.out.println("****** UPDATE BY ID ***** \n");
+							System.out.println("Enter Employee EID : ");
+							eid =sc.nextLong();
+							loader();
+							empTrn = eservice.findById(eid);
+							if(empTrn !=null) {
+								employeeList = new ArrayList<Employee>();
+								employeeList.add(empTrn);
+								displayRecord(employeeList);
+								empTrn= updateEmployeeForm(sc,empTrn);
+								System.out.println("\n\tbefore persist "+empTrn+"\n");
+								eservice.updateEmployee(empTrn);
+								System.out.println("\n\tafter persist "+empTrn);							
+							}else {
+								System.err.println("employee not found by EID ");
+							}
+							break;
 				case 3:
-
-						break;
+							System.out.println("****** DELETE BY ID ***** \n");
+							System.out.println("Enter Employee EID : ");
+							eid=sc.nextLong();
+							loader();
+							empTrn = eservice.findById(eid);
+							if(empTrn !=null) {
+								employeeList = new ArrayList<Employee>();
+								employeeList.add(empTrn);
+								displayRecord(employeeList);
+								loader();
+								eservice.deleteEmployee(empTrn);
+								System.out.println("deleted successfully !");
+							}
+							break;
 				case 4:
-
+							System.out.println("****** SEARCH BY ID ***** \n");
+							System.out.println("Enter Employee EID : ");
+							eid =sc.nextLong();
+							loader();
+							empTrn = eservice.findById(eid);
+							if(empTrn !=null) {
+								employeeList = new ArrayList<Employee>();
+								employeeList.add(empTrn);
+								displayRecord(employeeList);
+							}else {
+								System.err.println("employee not found by EID ");
+							}
 						break;
 				case 5:
 							employeeList=eservice.getAllEmployees();

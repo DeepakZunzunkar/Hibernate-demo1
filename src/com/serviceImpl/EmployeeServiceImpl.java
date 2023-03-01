@@ -153,6 +153,22 @@ public class EmployeeServiceImpl implements EmployeeService{
 		}
 	}
 
+	@Override
+	public void deleteEmployee(Employee empTrn) {
+		try {
+			session= sf.openSession();
+			tx = session.beginTransaction();
+			session.delete(empTrn);
+			tx.commit();
+		} catch (Exception e) {
+			if(tx!=null) tx.rollback();
+			throw e;
+		}finally {
+			session.close();
+		}
+		
+	}
+
 
 
 }
