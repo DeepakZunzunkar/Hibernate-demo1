@@ -75,7 +75,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 				emp.setFirstName(row[1].toString());
 				emp.setLastName(row[2].toString());
 				emp.setCreatedOn(DateUtils.convertStringToJUtilDateTime(row[3].toString()));
-				emp.setStatus(row[4].toString());
+				emp.setStatus(row[4]!=null?row[4].toString():"");
 				emp.setBirthDate(row[5]!=null?DateUtils.convertStringToJUtilDateTime(row[5].toString()):null);
 				
 				list.add(emp);
@@ -90,6 +90,38 @@ public class EmployeeServiceImpl implements EmployeeService{
 			 session.close();
 		}
 		return list;
+	}
+
+	@Override
+	public Employee findById(long eid) {
+		
+		try {
+			session= sf.openSession();
+			tx = session.beginTransaction();
+			employee= session.get(Employee.class,eid);
+			
+		} catch (Exception e) {
+			if(tx!=null) tx.rollback();
+			throw e;
+		}finally {
+			session.close();
+		}
+		return employee;
+	}
+
+	@Override
+	public void updateEmployee(Employee empTrn) {
+		try {
+			session= sf.openSession();
+			tx = session.beginTransaction();
+			session.update(empTrn);
+			
+		} catch (Exception e) {
+			if(tx!=null) tx.rollback();
+			throw e;
+		}finally {
+			session.close();
+		}
 	}
 
 }

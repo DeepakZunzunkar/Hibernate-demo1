@@ -1,5 +1,6 @@
 package com.test;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -53,24 +54,28 @@ public class Test
     	// button to exit and terminate the employee
     	
     	EmployeeService eservice = new EmployeeServiceImpl();
-
-		
+    	Employee empTrn = null;
+    	List<Employee> employeeList =null;
     	do
 		{
     		intiateLandingPage(eservice);
     		System.out.println("select your choice \n");
 			
-    		System.out.println("1.Regeister Employee ");
-    		System.out.println("2.view all record");
-    		System.out.println("3.Terminate Employee ");
-    		System.out.println("4.Deactivate / Exist Employee from the system ");
+    		System.out.println("1]Add  ");
+    		System.out.println("2]update");
+			System.out.println("3]delete");
+			System.out.println("4]Search");
+			System.out.println("5]View All Record");
+    		System.out.println("6]Terminate Employee ");
+    		System.out.println("7]Deactivate / Exist Employee from the system ");
+    		System.out.println("8]Exit from App ");
 			
 			int num =sc.nextInt();
 		
 			switch (num)
 			{
 				case 1:	
-						Employee empTrn= registerEmployeeForm(sc);
+						empTrn= registerEmployeeForm(sc,"ADD",null);
 						loader();
 						System.out.println("\n\tbefore persist "+empTrn+"\n");
 						empTrn = eservice.saveEmployee(empTrn);
@@ -80,14 +85,44 @@ public class Test
 						System.out.println("\n\tafter persist "+empTrn);
 						break;
 				case 2:
-						
+						System.out.println("****** UPDATE BY ID \n*****");
+						System.out.println("Enter Employee EID : ");
+						long eid =sc.nextLong();
+						loader();
+						empTrn = eservice.findById(eid);
+						if(empTrn !=null) {
+							loader();
+//							employeeList = new ArrayList<Employee>();
+//							employeeList.add(empTrn);
+//							displayRecord(employeeList);
+							empTrn= updateEmployeeForm(sc,empTrn);
+							System.out.println("\n\tbefore persist "+empTrn+"\n");
+							eservice.updateEmployee(empTrn);
+							System.out.println("\n\tafter persist "+empTrn);							
+						}else {
+							System.err.println("employee not by EID ");
+						}
 						break;
 				case 3:
 
 						break;
-			
+				case 4:
+
+						break;
+				case 5:
+
+						break;
+				case 6:
+
+						break;
+				case 7:
+
+						break;
+				case 8:
+						System.exit(0);
+						break;
 				default:
-						System.out.println("INVALID Choice");
+						System.err.println("Invalid Choice,try again");
 						break;
 			}
     		
@@ -98,37 +133,86 @@ public class Test
 		}while(status.equalsIgnoreCase("yes") || status.equalsIgnoreCase("y"));
     }
 
-	private static Employee registerEmployeeForm(Scanner sc) {
+	private static Employee updateEmployeeForm(Scanner sc, Employee empTrn) {
 		
-		Employee trn =new Employee("A","admin",new Date(),null,null);
+		System.out.println("select your choise \n");
 		
-		System.out.println("First Name________:\n");
-		trn.setFirstName(sc.next());
+		System.out.println("1]update first and last name  ");
+		System.out.println("2]update gender ");
+		System.out.println("3]update dob ");
+		System.out.println("4]update all data\n");
 		
-		System.out.println("Last Name_________:\n");
-		trn.setLastName(sc.next());
+		int choice =sc.nextInt();
 		
-		System.out.println("Gender \n 1.Male\n 2.Female : ");
-		int gChoice =sc.nextInt();
-		switch (gChoice)
+		switch (choice)
 		{
 			case 1:	
-					trn.setGender(Gender.MALE.getGenderValue());
+					empTrn= registerEmployeeForm(sc,"NAMES",empTrn);
 					break;
 			case 2: 
-					trn.setGender(Gender.FEMALE.getGenderValue());
+					empTrn= registerEmployeeForm(sc,"GENDER",empTrn);
+					break;
+			case 3:	
+					empTrn= registerEmployeeForm(sc,"DOB",empTrn);
+					break;
+			case 4: 
+					empTrn= registerEmployeeForm(sc,"ALL",empTrn);
 					break;
 			default:
-					trn.setGender("NA");
+					System.err.println("Invalid Choice,try again\n");
 					break;
 		}	
 		
-		trn.setStatus(EmployeeStatus.ACTIVE.getEmployeeStatusCode());
+		return empTrn;
+	}
 
-		System.out.println("Date Of Birth [ yyyy-mm-dd ] _________:\n");
-		String dateStr = sc.next();
-		trn.setBirthDate(DateUtils.convertStringToJUtilDateTime(dateStr));
+	private static Employee registerEmployeeForm(Scanner sc,String label,Employee trn) {
 		
+		
+		if(trn!=null) {
+			trn.setUpdatedBy("admin");
+			trn.setUpdatedOn(new Date());
+		}else {
+			trn =new Employee("A","admin",new Date(),null,null);
+		}
+		
+		if(label.equalsIgnoreCase("ADD") || label.equalsIgnoreCase("ALL")|| label.equalsIgnoreCase("NAMES")) {
+			
+			System.out.println("First Name________:\n");
+			trn.setFirstName(sc.next());
+			
+			System.out.println("Last Name_________:\n");
+			trn.setLastName(sc.next());
+			
+		}
+		if(label.equalsIgnoreCase("ADD") || label.equalsIgnoreCase("ALL") || label.equalsIgnoreCase("GENDER")){
+			
+			System.out.println("Gender \n 1.Male\n 2.Female : ");
+			int gChoice =sc.nextInt();
+			switch (gChoice)
+			{
+				case 1:	
+						trn.setGender(Gender.MALE.getGenderValue());
+						break;
+				case 2: 
+						trn.setGender(Gender.FEMALE.getGenderValue());
+						break;
+				default:
+						trn.setGender("NA");
+						break;
+			}	
+			
+		}
+		if(label.equalsIgnoreCase("ADD") || label.equalsIgnoreCase("ALL") || label.equalsIgnoreCase("DOB")){
+			
+			System.out.println("Date Of Birth [ yyyy-mm-dd ] _________:\n");
+			String dateStr = sc.next();
+			trn.setBirthDate(DateUtils.convertStringToJUtilDateTime(dateStr));
+			
+		}
+		if(label.equalsIgnoreCase("ADD")) {
+			trn.setStatus(EmployeeStatus.ACTIVE.getEmployeeStatusCode());
+		}
 		return trn;
 	}
 	
@@ -145,30 +229,35 @@ public class Test
 		System.out.println("\n");
 	}
 	private static void intiateLandingPage(EmployeeService eservice) {
-		
+		loader();
 		List<Employee> employeeList =null;
 		try {
 			employeeList=eservice.loadRecentRegistEmployeeByNativeQuery();
 		} catch (Exception e) {
-			System.out.println("Exception occured in intiateLandingPage"+e.getMessage());
+			System.err.println("Exception occured in intiateLandingPage "+e.getMessage());
 		}
-		
 		System.out.println("\n\nRecently Added Record ::");
+		displayRecord(employeeList);
+	
+	}
+		
+	
+
+	private static void displayRecord(List<Employee> employeeList) {
+		
 		System.out.println("\n--------------------------------------------------------------------");
-		System.out.println("ID	|	NAME		|	STATUS 	|	AGE		| CREATED ON	 ");
+		System.out.println("ID	|	NAME	|	STATUS 	|	AGE	| CREATED ON	 ");
 		System.out.println("---------------------------------------------------------------------");   
 		
 		if(employeeList!=null && !employeeList.isEmpty()) {
 			
 			for(Employee emp:employeeList) {
-				System.out.println(emp.getEid()+"\t|"+emp.getFirstName()+" "+emp.getLastName()+"\t|\t"+emp.getStatus()+"\t|\t"+DateUtils.getAge(DateUtils.convertJUtilDateTimeToString(emp.getBirthDate()))+"|"+emp.getCreatedOn());
+				System.out.println(emp.getEid()+"\t|"+emp.getFirstName()+" "+emp.getLastName()+"\t|\t"+emp.getStatus()+"\t|\t"+DateUtils.getAge(DateUtils.convertJUtilDateTimeToString(emp.getBirthDate()))+"\t|"+emp.getCreatedOn());
 			}
 		}
 		System.out.println("-----------------------------------------------------------------------\n");
-	
-	}
 		
-	
+	}
 
 	private static void studentCurdOperation() {
 		
