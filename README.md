@@ -84,4 +84,6 @@ Session session = sf.openSession();
 - session.delete(student)
 - session.get(Student.class,id)
 - session.createCriteria(Student.class)
+- session.createSQLQuery("select * from employee")
+- session.createQuery("from Employee")
  		
