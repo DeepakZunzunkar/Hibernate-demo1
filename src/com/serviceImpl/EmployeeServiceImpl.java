@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,7 +23,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	static Session session=null;
 	static Transaction tx=null;
 	static Integer rs=0;
-	
+	List<Employee> list = new ArrayList<Employee>();
 
 	@Override
 	public Employee saveEmployee(Employee employee) {
@@ -50,7 +51,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public List<Employee> loadRecentRegistEmployeeByNativeQuery() {
 
-		List<Employee> list = new ArrayList<Employee>();
+		
 		session=sf.openSession();
 		tx=session.beginTransaction();
 		try {
@@ -68,6 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 //			SQLQuery query =session.createSQLQuery("SELECT eid,firstname,lastname,createdon,status,birthDate FROM adpemployee where EID > (select count(*) from adpemployee)-5");
 			
 			List<Object[]> rows = query.list();
+			//list() method returns the List of Object array, we need to explicitly parse them to double, long etc. 
 			for(Object[] row : rows){
 				Employee emp = new Employee();
 				
@@ -93,6 +95,33 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
+	public List<Employee> getAllEmployees() {
+		
+		//HQL or Hibernate Query Language is the object-oriented query language of Hibernate Framework.
+		//HQL is very similar to SQL except that we use Objects instead of table names, that makes it more close to object oriented programming.
+		
+		try {
+			
+			session=sf.openSession();
+			tx=session.beginTransaction();
+			
+			// HQL is case-insensitive except for java class and variable names. 
+			// So SeLeCT is the same as sELEct is the same as SELECT, but com.model.Employee is not same as com.model.EMPLOYEE. 
+			Query query=session.createQuery("from Employee");
+			list = query.list();
+			
+			tx.commit();
+			
+		} catch (Exception e) {
+			if(tx!=null) tx.rollback();
+			throw e;
+		}finally {
+			session.close();
+		}
+		return list;
+	}
+	
+	@Override
 	public Employee findById(long eid) {
 		
 		try {
@@ -115,7 +144,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 			session= sf.openSession();
 			tx = session.beginTransaction();
 			session.update(empTrn);
-			
+			tx.commit();
 		} catch (Exception e) {
 			if(tx!=null) tx.rollback();
 			throw e;
@@ -123,5 +152,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 			session.close();
 		}
 	}
+
+
 
 }

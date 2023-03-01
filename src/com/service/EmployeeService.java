@@ -12,6 +12,6 @@ public interface EmployeeService {
 	List<Employee> loadRecentRegistEmployeeByNativeQuery();
 //		Boolean terminateEmployee();
 	Employee findById(long eid);
-	
+	List<Employee> getAllEmployees();
 	
 }
