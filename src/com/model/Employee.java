@@ -22,6 +22,8 @@ public class Employee {
 
     private String active;
 	
+    private Double salary;
+    
 	private String createdBy;
 
 	private Date createdOn;
@@ -125,6 +127,14 @@ public class Employee {
 
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
+	}
+	
+	public Double getSalary() {
+		return salary;
+	}
+
+	public void setSalary(Double salary) {
+		this.salary = salary;
 	}
 
 	public Employee(Long eid, String firstName, String lastName, String gender, String status, Date birthDate,

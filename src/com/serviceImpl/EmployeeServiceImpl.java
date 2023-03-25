@@ -63,7 +63,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 			//to hibernate association and hibernate first level cache.
 			
 			//METHOD 1 :  Using LIMIT clause in descending order
-			SQLQuery query =session.createSQLQuery("SELECT eid,firstname,lastname,createdon,status,birthDate FROM adpemployee a Order by EID DESC LIMIT 5");
+			SQLQuery query =session.createSQLQuery("SELECT eid,firstname,lastname,createdon,status,birthDate,salary FROM adpemployee a Order by EID DESC LIMIT 5");
 			
 			//METHOD 2 :  Using Relational Operator and COUNT function.
 //			SQLQuery query =session.createSQLQuery("SELECT eid,firstname,lastname,createdon,status,birthDate FROM adpemployee where EID > (select count(*) from adpemployee)-5");
@@ -79,7 +79,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 				emp.setCreatedOn(DateUtils.convertStringToJUtilDateTime(row[3].toString()));
 				emp.setStatus(row[4]!=null?row[4].toString():"");
 				emp.setBirthDate(row[5]!=null?DateUtils.convertStringToJUtilDateTime(row[5].toString()):null);
-				
+				emp.setSalary(row[6]!=null?Double.parseDouble(row[6].toString()):0.00);
 				list.add(emp);
 				
 			}	

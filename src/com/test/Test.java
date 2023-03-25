@@ -1,5 +1,7 @@
 package com.test;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +20,8 @@ import com.utility.DateUtils;
 public class Test 
 {
 	
+	private static final DecimalFormat df = new DecimalFormat("0.00");
+	private static final SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/YYYY");
 	
 	public static void main(String[] args) 
 	{
@@ -283,6 +287,11 @@ public class Test
 		if(label.equalsIgnoreCase("ADD") || label.equalsIgnoreCase("STATUS")) {
 			trn.setStatus(label.equalsIgnoreCase("STATUS")? trn.getStatus():EmployeeStatus.ACTIVE.getEmployeeStatusCode());
 		}
+		if(label.equalsIgnoreCase("ADD")){
+			System.out.println("Salary per month ________:\n");
+			trn.setSalary(Double.parseDouble(sc.next()));
+		}
+				
 		return trn;
 	}
 	
@@ -307,29 +316,29 @@ public class Test
 			System.err.println("Exception occured in intiateLandingPage "+e.getMessage());
 		}
 		System.out.println("\n\nRecently Added Record ::");
-		displayRecentAddedRecord(employeeList);
+		displayRecord(employeeList);
 	
 	}
 		
 	
 
-	private static void displayRecentAddedRecord(List<Employee> employeeList) {
+	private static void displayRecord(List<Employee> employeeList) {
 		
-		System.out.println("\n--------------------------------------------------------------------");
-		System.out.println("ID	|	NAME	|	STATUS 	|	AGE	| CREATED ON	 ");
-		System.out.println("---------------------------------------------------------------------");   
+		System.out.println("\n-------------------------------------------------------------------------------------------------------------");
+		System.out.println("ID	|	NAME		|	STATUS 	|	AGE	| 	SALARY 		|	CREATED ON	 ");
+		System.out.println("---------------------------------------------------------------------------------------------------------------");   
 		
 		if(employeeList!=null && !employeeList.isEmpty()) {
 			
 			for(Employee emp:employeeList) {
-				System.out.println(emp.getEid()+"\t|"+emp.getFirstName()+" "+emp.getLastName()+"\t|\t"+emp.getStatus()+"\t|\t"+DateUtils.getAge(DateUtils.convertJUtilDateTimeToString(emp.getBirthDate()))+"\t|"+emp.getCreatedOn());
+				System.out.println(emp.getEid()+"\t|"+emp.getFirstName()+" "+emp.getLastName()+"\t\t|\t"+emp.getStatus()+"\t|\t"+DateUtils.getAge(DateUtils.convertJUtilDateTimeToString(emp.getBirthDate()))+"\t|\t"+df.format(emp.getSalary())+"\t|\t"+sdf.format(emp.getCreatedOn()));
 			}
 			employeeList.clear();
 		}
-		System.out.println("-----------------------------------------------------------------------\n");
+		System.out.println("-----------------------------------------------------------------------------------------------------------------\n");
 	}
 
-	private static void displayRecord(List<Employee> employeeList) {
+	private static void displayRecord1(List<Employee> employeeList) {
 		
 		System.out.println("\n--------------------------------------------------------------------");
 		System.out.println("ID	|	NAME	|	STATUS 	|	AGE	| CREATED ON	 ");

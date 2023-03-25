@@ -22,9 +22,11 @@
         <property name="status" type="java.lang.String">
             <column name="status" />
         </property>
-        
          <property name="active" type="java.lang.String">
             <column name="ACTIVE" />
+        </property>
+        <property name="salary" type="java.lang.Double">
+            <column name="SALARY" />
         </property>
         <property name="createdBy" type="java.lang.String">
             <column name="CREATEDBY" />
